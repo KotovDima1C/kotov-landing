@@ -260,7 +260,7 @@
   .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 12px var(--glow-gold); }
   .nav-links { display: flex; gap: 1.3rem; margin-left: auto; }
   .nav-links a {
-    text-decoration: none; color: var(--muted); font-size: .92rem; font-weight: 500;
+    white-space: nowrap; text-decoration: none; color: var(--muted); font-size: .92rem; font-weight: 500;
     position: relative; padding: .3em 0; transition: color .2s ease;
   }
   .nav-links a::after {
@@ -647,103 +647,77 @@
     .ch-links-grid { grid-template-columns: 1fr; }
   }
 
-  /* ====================== MACBOOK AUCTION ====================== */
-  .mb-progress-card { padding: 1.3rem 1.6rem; margin-bottom: 2.2rem; }
-  .mb-progress-top { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; align-items: baseline; justify-content: space-between; margin-bottom: .9rem; }
-  .mb-collected-wrap { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
-  .mb-collected { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(1.35rem, 3vw, 1.9rem); background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .mb-goal, .mb-slots-stat { font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--muted); }
-  .mb-slots-stat b { color: var(--gold); }
-  .mb-bar { height: 12px; border-radius: 8px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
-  .mb-bar-fill { height: 100%; min-width: 4px; background: var(--grad); border-radius: 8px; box-shadow: 0 0 14px var(--glow-gold); transition: width .8s ease; }
-
-  /* крышка всегда «space gray» — фиксированная палитра, не зависит от темы */
-  .mb-lid-wrap { display: grid; place-items: center; margin: 0 0 2.6rem; }
-  .mb-lid {
-    width: min(720px, 100%); aspect-ratio: 1.45;
-    background: linear-gradient(165deg, #3b3b46 0%, #23232c 45%, #17171f 100%);
-    border-radius: clamp(18px, 3vw, 30px); border: 1px solid rgba(255,255,255,.15);
-    box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 40px 90px -40px rgba(0,0,0,.9), 0 0 70px -24px var(--glow-violet);
-    padding: clamp(10px, 2.2vw, 20px);
-    display: grid; grid-template-rows: 1fr 1.25fr 1fr; gap: clamp(7px, 1.3vw, 12px);
+  /* ====================== CONTACT CARD ====================== */
+  .contact-card {
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.6rem 2.6rem; align-items: center;
+    padding: clamp(1.4rem, 3vw, 2.2rem) clamp(1.4rem, 3vw, 2.4rem);
+    border-color: rgba(255,192,46,.28);
+    box-shadow: 0 0 40px -18px var(--glow-gold), var(--card-shadow);
   }
-  .mb-lid-row { display: grid; gap: clamp(7px, 1.3vw, 12px); }
-  .mb-row-1, .mb-row-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .mb-row-2 { grid-template-columns: 1fr .85fr minmax(64px, .7fr) .85fr 1fr; }
-  .mb-apple { display: grid; place-items: center; }
-  .mb-apple svg { width: clamp(32px, 6.5vw, 56px); height: auto; fill: #d8d8e2; filter: drop-shadow(0 0 16px rgba(216,216,226,.35)); }
+  .contact-card:hover { transform: none; }
+  .contact-card h3 { font-size: clamp(1.35rem, 2.8vw, 1.9rem); max-width: 18ch; }
+  .contact-card p { color: var(--muted); margin: .9rem 0 1.3rem; max-width: 44ch; }
+  .contact-links { grid-template-columns: 1fr; margin-bottom: 0; }
+  @media (max-width: 860px) { .contact-card { grid-template-columns: 1fr; } }
 
-  .mb-slot {
-    position: relative; border-radius: 12px;
-    border: 1.5px dashed rgba(255,255,255,.28);
-    background: rgba(255,255,255,.03); color: #c9c9d6;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 2px; padding: 6px 4px; text-align: center; cursor: pointer;
-    font-family: inherit;
-    transition: border-color .2s, background .2s, transform .2s, box-shadow .25s;
+  /* ====================== APPLE FAB (ссылка на аукцион стикеров) ======================
+     наведение — яблоко растёт и надкусывается, клик — закручивается в спираль и уходит на macbook.html */
+  .apple-fab {
+    position: fixed; right: clamp(14px, 3vw, 28px); bottom: clamp(14px, 3vw, 28px); z-index: 70;
+    width: 52px; height: 52px; display: grid; place-items: center;
+    text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent;
   }
-  .mb-slot:hover { border-color: #FFC02E; background: rgba(255,192,46,.07); transform: translateY(-2px); box-shadow: 0 8px 24px -12px rgba(255,192,46,.4); }
-  .mb-slot .plus { font-size: clamp(.9rem, 2vw, 1.25rem); line-height: 1; color: #FFC02E; font-weight: 700; }
-  .mb-slot .sname { font-size: clamp(.52rem, 1.15vw, .68rem); font-weight: 600; line-height: 1.25; }
-  .mb-slot .sprice { font-family: "JetBrains Mono", monospace; font-size: clamp(.48rem, 1vw, .62rem); color: #8f8fa3; }
-  .mb-slot.taken { border-style: solid; border-color: rgba(34,211,238,.5); background: rgba(34,211,238,.08); }
-  .mb-slot.taken .sprice { color: #22D3EE; }
-  .mb-slot .crown { position: absolute; top: 3px; right: 6px; font-size: clamp(.6rem, 1.4vw, .8rem); }
-
-  .mb-participants { margin-bottom: 2.6rem; }
-  .mb-participants > summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); color: var(--text); font-weight: 600; cursor: pointer; list-style: none; }
-  .mb-participants > summary::-webkit-details-marker { display: none; }
-  .mb-participants > summary::after { content: "+"; color: var(--cyan); font-size: 1.4rem; line-height: 1; }
-  .mb-participants[open] > summary::after { content: "−"; }
-  .mb-participants > summary:hover { border-color: var(--cyan); }
-  .mb-participants > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
-  .mb-table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--border); background: linear-gradient(180deg, var(--surface), var(--surface-2)); box-shadow: var(--card-shadow); margin: 1rem 0 0; }
-  table.mb-table { width: 100%; border-collapse: collapse; min-width: 760px; font-size: .92rem; }
-  .mb-table th { font-family: "JetBrains Mono", monospace; font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--border); font-weight: 500; }
-  .mb-table td { padding: 12px 18px; border-bottom: 1px solid var(--border); color: var(--muted); }
-  .mb-table tr:last-child td { border-bottom: 0; }
-  .mb-table td.pos { color: var(--text); font-weight: 600; white-space: nowrap; }
-  .mb-table td.bid { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--gold); white-space: nowrap; }
-  .mb-table td.bid .start-mark { font-weight: 400; color: var(--faint); font-size: .74em; margin-left: .4em; }
-  .mb-status { font-family: "JetBrains Mono", monospace; font-size: .64rem; font-weight: 700; padding: .35em .8em; border-radius: 30px; white-space: nowrap; }
-  .mb-status.free { background: rgba(34,211,238,.12); color: var(--cyan); border: 1px solid rgba(34,211,238,.3); }
-  .mb-status.taken { background: rgba(255,192,46,.12); color: var(--gold); border: 1px solid rgba(255,192,46,.3); }
-  .mb-table td.owner { color: var(--text); font-weight: 500; white-space: nowrap; }
-  .btn-sm { padding: .5em 1em; font-size: .82rem; border-radius: 9px; }
-
-  .mb-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 1rem; }
-  @media (max-width: 960px) { .mb-steps { grid-template-columns: 1fr 1fr; } }
-  .mb-step .num { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: 1.5rem; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .mb-step h3 { font-family: "Inter", sans-serif; font-weight: 700; font-size: 1.04rem; letter-spacing: 0; margin-top: .5rem; }
-  .mb-step p { color: var(--muted); font-size: .92rem; margin: .7rem 0 0; }
-
-  .mb-guarantee {
-    display: flex; align-items: center; gap: 1.1rem;
-    margin-top: 2rem; padding: 1.2rem 1.5rem; border-radius: 16px;
-    background: linear-gradient(120deg, rgba(255,192,46,.08), rgba(139,92,246,.06));
-    border: 1px solid rgba(255,192,46,.35);
-    box-shadow: 0 0 32px -16px var(--glow-gold);
+  .apple-fab:focus-visible { outline: none; }
+  .apple-fab svg {
+    width: 100%; height: 100%; overflow: visible; display: block; position: relative; z-index: 1;
+    transform-origin: 50% 55%;
+    transition: transform .35s cubic-bezier(.5,1.6,.4,1), filter .3s ease;
+    filter: drop-shadow(0 6px 18px rgba(255,138,61,.35));
+    animation: apple-float 3.4s ease-in-out infinite;
   }
-  .mb-guarantee-ic { font-size: 1.9rem; line-height: 1; flex-shrink: 0; filter: drop-shadow(0 0 12px var(--glow-gold)); }
-  .mb-guarantee p { margin: 0; color: var(--muted); font-size: .97rem; }
-  .mb-guarantee b { color: var(--gold); }
-  .mb-word { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--text); white-space: nowrap; }
-
-  @media (max-width: 720px) {
-    .mb-steps { grid-template-columns: 1fr; }
-    .mb-row-2 { grid-template-columns: 1fr .9fr minmax(44px, .6fr) .9fr 1fr; }
+  .apple-fab:hover svg, .apple-fab:focus-visible svg {
+    transform: scale(1.3) rotate(-8deg); animation: none;
+    filter: drop-shadow(0 10px 28px rgba(255,192,46,.55)) drop-shadow(0 0 18px rgba(139,92,246,.35));
+  }
+  /* укус: круг в маске растёт при наведении и затягивается обратно, когда курсор ушёл */
+  .apple-fab .bite-c { r: 0; transition: r .2s ease .35s; }
+  .apple-fab:hover .bite-c, .apple-fab:focus-visible .bite-c, .apple-fab.spinning .bite-c { r: 13; transition: r .18s cubic-bezier(.2,.9,.3,1.3) .12s; }
+  .apple-fab .crumb { opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .apple-fab:hover .crumb, .apple-fab:focus-visible .crumb { animation: apple-crumb .6s ease-out .14s forwards; }
+  .apple-fab:hover .crumb:nth-child(2), .apple-fab:focus-visible .crumb:nth-child(2) { animation-delay: .18s; }
+  .apple-fab:hover .crumb:nth-child(3), .apple-fab:focus-visible .crumb:nth-child(3) { animation-delay: .22s; }
+  /* чёрная дыра: траектория по спирали считается скриптом (Web Animations API), здесь только состояние */
+  .apple-fab.spinning { pointer-events: none; }
+  .apple-fab.spinning svg, .apple-fab.spinning:hover svg { transition: none; }
+  .apple-fab.spinning .crumb { animation: none; opacity: 0; }
+  .apple-fab .ghost { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .apple-fab .afl {
+    position: absolute; right: calc(100% + 18px); top: 50%; translate: 8px -50%;
+    font-family: "JetBrains Mono", monospace; font-size: .72rem; font-weight: 600; white-space: nowrap;
+    color: var(--text); background: var(--surface); border: 1px solid var(--border-2);
+    padding: .55em .9em; border-radius: 30px; box-shadow: var(--card-shadow);
+    opacity: 0; pointer-events: none; transition: opacity .2s ease, translate .25s cubic-bezier(.5,1.6,.4,1);
+  }
+  .apple-fab .afl b { color: var(--gold); }
+  .apple-fab:hover .afl, .apple-fab:focus-visible .afl { opacity: 1; translate: 0 -50%; }
+  .apple-fab.spinning .afl { opacity: 0; }
+  @media (hover: none) { .apple-fab .afl { display: none; } }
+  @keyframes apple-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+  @keyframes apple-crumb {
+    0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(14px, 18px) scale(.4); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .apple-fab svg { animation: none; transition: none; }
+    .apple-fab:hover svg, .apple-fab:focus-visible svg { transform: scale(1.15); }
+    .apple-fab .bite-c, .apple-fab:hover .bite-c { transition: none; }
+    .apple-fab:hover .crumb, .apple-fab:focus-visible .crumb { animation: none; }
   }
 
   /* ====================== FOOTER ====================== */
-  footer { border-top: 1px solid var(--border); padding: clamp(56px, 8vh, 90px) 0 40px; position: relative; overflow: hidden; }
-  footer h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); max-width: 18ch; }
-  .foot-head { max-width: 640px; margin-bottom: clamp(34px, 5vw, 52px); }
-  .foot-sub { color: var(--muted); margin: 1.1rem 0 1.6rem; }
-  .foot-mail { font-family: "JetBrains Mono", monospace; font-size: .85rem; color: var(--muted); margin-top: 1.3rem; }
-  .foot-mail a { color: var(--cyan); text-decoration: none; }
-  .foot-mail a:hover { text-decoration: underline; }
+  footer { border-top: 1px solid var(--border); padding: 1.6rem 0 2rem; position: relative; overflow: hidden; }
 
-  .foot-bottom { margin-top: 3rem; padding-top: 1.6rem; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; color: var(--faint); font-size: .8rem; font-family: "JetBrains Mono", monospace; }
+  .foot-bottom { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; color: var(--faint); font-size: .8rem; font-family: "JetBrains Mono", monospace; }
 
   /* ====================== REVEAL ====================== */
   .reveal { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s ease; }
@@ -856,15 +830,18 @@
     .hero-text p, .hero-sub { margin-left: auto; margin-right: auto; }
     .hero-cta { justify-content: center; }
   }
-  @media (max-width: 720px) {
+  /* меню не влезает в одну строку раньше, чем на телефонах: мем прячем первым, потом уходим в бургер */
+  @media (max-width: 1180px) { .meme { display: none; } }
+  @media (max-width: 1040px) {
     .nav-links { display: none; }
-    .meme { display: none; }
     .burger { display: grid; place-items: center; margin-left: auto; }
     .nav-links.open {
       display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0;
       background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 4vw 1.4rem; gap: .4rem;
     }
     .nav-links.open a { padding: .6em 0; font-size: 1rem; }
+  }
+  @media (max-width: 720px) {
     .svc-grid { grid-template-columns: 1fr; }
     .socials { grid-template-columns: 1fr; gap: 24px; }
   }
@@ -888,13 +865,11 @@
     <a href="#about" class="brand"><span class="dot"></span>Дмитрий&nbsp;Котов</a>
     <nav class="nav-links" id="navLinks">
       <a href="#about">Обо мне</a>
-      <a href="#social">Соц.сети</a>
-      <a href="#articles">Статьи</a>
       <a href="#videos">Видео</a>
-      <a href="#awards">Награды</a>
+      <a href="#articles">Статьи</a>
       <a href="#talks">Выступления</a>
-      <a href="#macbook" aria-label="MacBook">🍏</a>
-      <a href="#contacts">Контакты</a>
+      <a href="#awards">Награды</a>
+      <a href="#contacts">Соц.сети и контакты</a>
     </nav>
     <div class="theme-zone">
       <span class="meme">В конфигураторе нет,<br>а <b>у меня есть</b></span>
@@ -939,156 +914,11 @@
           <span class="hs-sub">Суть такова... Симулятор жизни 1Сника.</span>
           <span class="hs-link">yellowpath.ru →</span>
         </a>
-        <a class="hero-sticker hero-sticker--green reveal" href="#macbook">
+        <a class="hero-sticker hero-sticker--green reveal" href="macbook.html">
           <span class="hs-top">💸 Успей купить место</span>
           <span class="hs-sub">на моём маке!</span>
-          <span class="hs-link">к аукциону ↓</span>
+          <span class="hs-link">к аукциону →</span>
         </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SOCIAL ============ -->
-<section id="social">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">// Соц.сети</p>
-      <h2>Где меня <span class="grad-text">читать и смотреть</span></h2>
-    </div>
-
-    <!-- Три главных канала -->
-    <div class="eyebrow reveal">// Главные каналы</div>
-    <div class="ch-cards-grid reveal" style="margin-top:1rem">
-      <div class="ch-card ch-tg">
-        <span class="ch-card-badge">🏆 Топ</span>
-        <img class="ch-logo" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
-        <div class="ch-name">Telegram</div>
-        <div class="ch-desc">1С Заметки · вайбкодинг<br>ИИ · инсайды</div>
-        <div class="ch-count">8 600+</div>
-        <div class="ch-count-label">подписчиков</div>
-        <div class="ch-spacer"></div>
-        <a class="ch-btn tg-btn" href="https://t.me/top_1c" target="_blank" rel="noopener">Подписаться</a>
-      </div>
-      <div class="ch-card ch-yt">
-        <span class="ch-card-badge">🏆 Топ</span>
-        <img class="ch-logo" src="https://cdn.simpleicons.org/youtube/ff4444" alt="YouTube">
-        <div class="ch-name">YouTube</div>
-        <div class="ch-desc">Стримы и подкасты<br>записи митапов</div>
-        <div class="ch-count">1 000+</div>
-        <div class="ch-count-label">подписчиков</div>
-        <div class="ch-spacer"></div>
-        <a class="ch-btn yt-btn" href="https://www.youtube.com/@top_1c" target="_blank" rel="noopener">Подписаться</a>
-      </div>
-      <div class="ch-card ch-mx">
-        <img class="ch-logo" src="https://www.google.com/s2/favicons?domain=max.ru&sz=128" alt="MAX">
-        <div class="ch-name">MAX</div>
-        <div class="ch-desc">1С Заметки<br>зеркало Telegram-канала</div>
-        <div class="ch-count">300+</div>
-        <div class="ch-count-label">подписчиков</div>
-        <div class="ch-spacer"></div>
-        <a class="ch-btn mx-btn" href="https://max.ru/top_1c" target="_blank" rel="noopener">Подписаться</a>
-      </div>
-    </div>
-
-    <!-- Также есть на -->
-    <div class="eyebrow reveal">// Также есть на</div>
-    <div class="ch-links-grid reveal" style="margin-top:1rem">
-      <a class="ch-link-item" href="https://boosty.to/top_1c" target="_blank" rel="noopener">
-        <div class="ch-link-icon-box" style="background:#F15C22">B</div>
-        <span class="ch-link-name">Boosty</span>
-        <span class="ch-link-badge">🪙 Донат</span>
-      </a>
-      <a class="ch-link-item" href="https://live.vkvideo.ru/top_1c" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://cdn.simpleicons.org/vk/5ba4ff" alt="VK">
-        <span class="ch-link-name">ВК Видео</span>
-      </a>
-      <a class="ch-link-item" href="https://rutube.ru/channel/48898598/" target="_blank" rel="noopener">
-        <div class="ch-link-icon-box" style="border-radius:7px;overflow:hidden;padding:0;background:#FF2700"><img style="width:100%;height:100%;object-fit:cover;display:block" src="https://www.google.com/s2/favicons?domain=rutube.ru&sz=64" alt="RUTUBE"></div>
-        <span class="ch-link-name">RUTUBE</span>
-      </a>
-      <a class="ch-link-item" href="https://vk.com/top_1c" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://cdn.simpleicons.org/vk/5ba4ff" alt="VK">
-        <span class="ch-link-name">ВК Сообщество</span>
-      </a>
-      <a class="ch-link-item" href="https://github.com/DimaKotov1C" target="_blank" rel="noopener">
-        <img class="ch-link-icon gh-icon" src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub">
-        <span class="ch-link-name">GitHub</span>
-      </a>
-      <a class="ch-link-item" href="https://infostart.ru/profile/564942/" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://www.google.com/s2/favicons?domain=infostart.ru&sz=64" alt="Infostart">
-        <span class="ch-link-name">Infostart</span>
-      </a>
-    </div>
-
-    <!-- Увлечения -->
-    <div class="eyebrow reveal">// Увлечения</div>
-    <div class="ch-links-grid reveal" style="margin-top:1rem">
-      <a class="ch-link-item" href="https://t.me/VlogKotova" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
-        <span class="ch-link-name">Влог Димы Котова</span>
-        <span class="ch-link-badge">🏆 Топ</span>
-      </a>
-      <a class="ch-link-item" href="https://t.me/Nastolschik" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
-        <span class="ch-link-name">Хобби Димы Котова</span>
-      </a>
-    </div>
-
-    <!-- Личный контакт -->
-    <div class="eyebrow reveal">// Личный контакт</div>
-    <div class="ch-links-grid reveal" style="margin-top:1rem">
-      <a class="ch-link-item" href="https://t.me/KotovDima" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
-        <span class="ch-link-name">@KotovDima</span>
-      </a>
-      <a class="ch-link-item" href="https://vk.com/kotovdima1c" target="_blank" rel="noopener">
-        <img class="ch-link-icon" src="https://cdn.simpleicons.org/vk/5ba4ff" alt="VK">
-        <span class="ch-link-name">kotovdima1c</span>
-      </a>
-      <a class="ch-link-item" href="mailto:kotovdima1c@gmail.com">
-        <div class="ch-link-icon-box" style="background:#8b5cf6;font-size:13px">✉</div>
-        <span class="ch-link-name">kotovdima1c@gmail.com</span>
-      </a>
-    </div>
-
-
-  </div>
-</section>
-
-<!-- ============ ARTICLES ============ -->
-<section id="articles">
-  <div class="orb" style="width:380px;height:380px;background:var(--glow-gold);top:-80px;left:max(-140px, calc(50% - 860px));"></div>
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">// Статьи</p>
-      <h2>Самое <span class="grad-text">интересное</span> с Инфостарта</h2>
-      <p>Не всё подряд, а то, что стоит времени: разборы из живой практики и разработки, которыми реально пользуются. Полный список — в <a href="https://infostart.ru/profile/564942/" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">профиле на Инфостарте</a>.</p>
-    </div>
-    <div class="cgroup reveal" data-group="exp">
-      <div class="cgroup-head"><p class="eyebrow">// Опыт</p><span class="cgroup-count" data-count></span></div>
-      <div class="deck deck--pub" tabindex="0" aria-roledescription="carousel" aria-label="Статьи: опыт">
-        <div class="deck-stage" data-track></div>
-        <button class="car-btn car-prev" type="button" aria-label="Назад">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="car-btn car-next car-btn--pulse" type="button" aria-label="Вперёд">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
-        <div class="car-dots" data-dots></div>
-      </div>
-    </div>
-    <div class="cgroup reveal" data-group="prod">
-      <div class="cgroup-head"><p class="eyebrow">// Продукты</p><span class="cgroup-count" data-count></span></div>
-      <div class="deck deck--pub" tabindex="0" aria-roledescription="carousel" aria-label="Статьи: продукты">
-        <div class="deck-stage" data-track></div>
-        <button class="car-btn car-prev" type="button" aria-label="Назад">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="car-btn car-next car-btn--pulse" type="button" aria-label="Вперёд">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
-        <div class="car-dots" data-dots></div>
       </div>
     </div>
   </div>
@@ -1170,84 +1000,41 @@
   </div>
 </div>
 
-<!-- ============ AWARDS ============ -->
-<section id="awards">
+<!-- ============ ARTICLES ============ -->
+<section id="articles">
+  <div class="orb" style="width:380px;height:380px;background:var(--glow-gold);top:-80px;left:max(-140px, calc(50% - 860px));"></div>
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow">// Награды и признание</p>
-      <h2>Не просто <span class="grad-text">«ещё один 1С-блогер»</span></h2>
-      <p>Награды, рейтинги и места, где меня уже проверили — не на словах, а на сцене и в голосовании сообщества.</p>
+      <p class="eyebrow">// Статьи</p>
+      <h2>Самое <span class="grad-text">интересное</span> с Инфостарта</h2>
+      <p>Не всё подряд, а то, что стоит времени: разборы из живой практики и разработки, которыми реально пользуются. Полный список — в <a href="https://infostart.ru/profile/564942/" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">профиле на Инфостарте</a>.</p>
     </div>
-
-    <div class="deck reveal" tabindex="0" aria-roledescription="carousel" aria-label="Награды и признание">
-      <div class="deck-stage">
-        <article class="card award">
-          <div class="ic">⭐</div>
-          <span class="yr grad-text">2026</span>
-          <h3>Топ-автор Инфостарт</h3>
-          <p class="stat">4000+ рейтинг · 20-е место в Топ-100</p>
-          <p>Среди сотен тысяч авторов базы знаний — в двадцатке лучших по рейтингу сообщества.</p>
-          <a class="src" href="https://infostart.ru/profile/564942/" target="_blank" rel="noopener">Профиль →</a>
-        </article>
-        <article class="card award">
-          <div class="ic">🥈</div>
-          <span class="yr grad-text">2026</span>
-          <h3>2-е место · ERP AI FORUM</h3>
-          <p class="stat">Среди 30 спикеров · Москва</p>
-          <p>Лучший доклад по оценке зала — мастер-класс по вайбкодингу на 1С.</p>
-          <a class="src" href="https://t.me/esres_forums/111" target="_blank" rel="noopener">Источник →</a>
-        </article>
-        <article class="card award">
-          <div class="ic">🧢</div>
-          <span class="yr grad-text">2025</span>
-          <h3>Золотая кепка · Блогер №1</h3>
-          <p class="stat">Жёлтый клуб</p>
-          <p>Первое место в рейтинге телеграм-блогеров сообщества Жёлтый клуб. Золотая кепка — не виртуальная.</p>
-          <a class="src" href="https://t.me/yellowclub_official/945" target="_blank" rel="noopener">Источник →</a>
-        </article>
-        <article class="card award">
-          <div class="ic">🥊</div>
-          <span class="yr grad-text">2024</span>
-          <h3>Финалист битвы блогеров 1С</h3>
-          <p class="stat">Битва телеграм-блогеров</p>
-          <p>Вошёл в финал голосования среди авторов 1С-каналов — по выбору самого сообщества.</p>
-          <a class="src" href="https://t.me/esres_1c/1127" target="_blank" rel="noopener">Источник →</a>
-        </article>
-        <article class="card award">
-          <div class="ic">🎤</div>
-          <span class="yr grad-text">2024</span>
-          <h3>Дебют на конференции Инфостарта</h3>
-          <p class="stat">Топ-20 спикеров из 157 докладов</p>
-          <p>«Анализ и Управление в ИТ-проектах 2024» — первый доклад на федеральной конференции сразу вошёл в двадцатку лучших по оценкам зала.</p>
-          <a class="src" href="https://infostart.ru/journal/news/mir-1s/podvodim-itogi-konferentsii-analiz-i-upravlenie-v-it-proektakh-2024_2137584/" target="_blank" rel="noopener">Итоги конференции →</a>
-        </article>
-        <article class="card award">
-          <div class="ic">🏆</div>
-          <span class="yr grad-text">2020</span>
-          <h3>Infostart Awards</h3>
-          <p class="stat">Лауреат · второй раз</p>
-          <p>Второй раз лауреат — не случайность, а системный вклад в базу знаний и комьюнити.</p>
-          <a class="src" href="https://awards.infostart.ru/" target="_blank" rel="noopener">Источник →</a>
-        </article>
-        <article class="card award">
-          <div class="ic">🏆</div>
-          <span class="yr grad-text">2018</span>
-          <h3>Infostart Awards</h3>
-          <p class="stat">Лауреат премии</p>
-          <p>Лауреат премии Infostart Awards — один из главных призов профессионального сообщества 1С.</p>
-          <a class="src" href="https://awards.infostart.ru/" target="_blank" rel="noopener">Источник →</a>
-        </article>
+    <div class="cgroup reveal" data-group="exp">
+      <div class="cgroup-head"><p class="eyebrow">// Опыт</p><span class="cgroup-count" data-count></span></div>
+      <div class="deck deck--pub" tabindex="0" aria-roledescription="carousel" aria-label="Статьи: опыт">
+        <div class="deck-stage" data-track></div>
+        <button class="car-btn car-prev" type="button" aria-label="Назад">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="car-btn car-next car-btn--pulse" type="button" aria-label="Вперёд">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="car-dots" data-dots></div>
       </div>
-      <button class="car-btn car-prev" type="button" aria-label="Предыдущая награда">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button class="car-btn car-next car-btn--pulse" type="button" aria-label="Следующая награда">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-      <div class="car-dots" data-dots></div>
     </div>
-
-    <p class="trust reveal" style="margin-top:2rem">За спиной — не «галочки в резюме», а живые доклады, статьи и митапы. Хочешь пруф — кликай на источник. Не веришь — приходи на следующий мастер-класс и проверяй сам.</p>
+    <div class="cgroup reveal" data-group="prod">
+      <div class="cgroup-head"><p class="eyebrow">// Продукты</p><span class="cgroup-count" data-count></span></div>
+      <div class="deck deck--pub" tabindex="0" aria-roledescription="carousel" aria-label="Статьи: продукты">
+        <div class="deck-stage" data-track></div>
+        <button class="car-btn car-prev" type="button" aria-label="Назад">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="car-btn car-next car-btn--pulse" type="button" aria-label="Вперёд">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="car-dots" data-dots></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1417,116 +1204,238 @@
   </div>
 </section>
 
-<!-- ============ MACBOOK AUCTION ============ -->
-<section id="macbook">
-  <div class="orb" style="width:400px;height:400px;background:var(--glow-cyan);top:-100px;left:max(-120px, calc(50% - 840px));"></div>
+<!-- ============ AWARDS ============ -->
+<section id="awards">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow">// Аукцион стикеров</p>
-      <h2>Купи место на крышке <span class="grad-text">моего макбука</span></h2>
-      <p>Купи место под стикер с логотипом твоей компании на моём MacBook Pro. Я буду брать его во все поездки — на митапы, конференции, в командировки и путешествия. Ставки — в Telegram.</p>
+      <p class="eyebrow">// Награды и признание</p>
+      <h2>Не просто <span class="grad-text">«ещё один 1С-блогер»</span></h2>
+      <p>Награды, рейтинги и места, где меня уже проверили — не на словах, а на сцене и в голосовании сообщества.</p>
     </div>
 
-    <!-- Прогресс сбора -->
-    <div class="card mb-progress-card reveal">
-      <div class="mb-progress-top">
-        <div class="mb-collected-wrap">
-          <span class="mb-collected" id="mbCollected">0 ₽</span>
-          <span class="mb-goal" id="mbGoal">из 300 000 ₽</span>
-        </div>
-        <span class="mb-slots-stat" id="mbTakenCount">занято <b>0</b> из 10 слотов</span>
+    <div class="deck reveal" tabindex="0" aria-roledescription="carousel" aria-label="Награды и признание">
+      <div class="deck-stage">
+        <article class="card award">
+          <div class="ic">⭐</div>
+          <span class="yr grad-text">2026</span>
+          <h3>Топ-автор Инфостарт</h3>
+          <p class="stat">4000+ рейтинг · 20-е место в Топ-100</p>
+          <p>Среди сотен тысяч авторов базы знаний — в двадцатке лучших по рейтингу сообщества.</p>
+          <a class="src" href="https://infostart.ru/profile/564942/" target="_blank" rel="noopener">Профиль →</a>
+        </article>
+        <article class="card award">
+          <div class="ic">🥈</div>
+          <span class="yr grad-text">2026</span>
+          <h3>2-е место · ERP AI FORUM</h3>
+          <p class="stat">Среди 30 спикеров · Москва</p>
+          <p>Лучший доклад по оценке зала — мастер-класс по вайбкодингу на 1С.</p>
+          <a class="src" href="https://t.me/esres_forums/111" target="_blank" rel="noopener">Источник →</a>
+        </article>
+        <article class="card award">
+          <div class="ic">🧢</div>
+          <span class="yr grad-text">2025</span>
+          <h3>Золотая кепка · Блогер №1</h3>
+          <p class="stat">Жёлтый клуб</p>
+          <p>Первое место в рейтинге телеграм-блогеров сообщества Жёлтый клуб. Золотая кепка — не виртуальная.</p>
+          <a class="src" href="https://t.me/yellowclub_official/945" target="_blank" rel="noopener">Источник →</a>
+        </article>
+        <article class="card award">
+          <div class="ic">🥊</div>
+          <span class="yr grad-text">2024</span>
+          <h3>Финалист битвы блогеров 1С</h3>
+          <p class="stat">Битва телеграм-блогеров</p>
+          <p>Вошёл в финал голосования среди авторов 1С-каналов — по выбору самого сообщества.</p>
+          <a class="src" href="https://t.me/esres_1c/1127" target="_blank" rel="noopener">Источник →</a>
+        </article>
+        <article class="card award">
+          <div class="ic">🎤</div>
+          <span class="yr grad-text">2024</span>
+          <h3>Дебют на конференции Инфостарта</h3>
+          <p class="stat">Топ-20 спикеров из 157 докладов</p>
+          <p>«Анализ и Управление в ИТ-проектах 2024» — первый доклад на федеральной конференции сразу вошёл в двадцатку лучших по оценкам зала.</p>
+          <a class="src" href="https://infostart.ru/journal/news/mir-1s/podvodim-itogi-konferentsii-analiz-i-upravlenie-v-it-proektakh-2024_2137584/" target="_blank" rel="noopener">Итоги конференции →</a>
+        </article>
+        <article class="card award">
+          <div class="ic">🏆</div>
+          <span class="yr grad-text">2020</span>
+          <h3>Infostart Awards</h3>
+          <p class="stat">Лауреат · второй раз</p>
+          <p>Второй раз лауреат — не случайность, а системный вклад в базу знаний и комьюнити.</p>
+          <a class="src" href="https://awards.infostart.ru/" target="_blank" rel="noopener">Источник →</a>
+        </article>
+        <article class="card award">
+          <div class="ic">🏆</div>
+          <span class="yr grad-text">2018</span>
+          <h3>Infostart Awards</h3>
+          <p class="stat">Лауреат премии</p>
+          <p>Лауреат премии Infostart Awards — один из главных призов профессионального сообщества 1С.</p>
+          <a class="src" href="https://awards.infostart.ru/" target="_blank" rel="noopener">Источник →</a>
+        </article>
       </div>
-      <div class="mb-bar"><div class="mb-bar-fill" id="mbBarFill" style="width:0%"></div></div>
+      <button class="car-btn car-prev" type="button" aria-label="Предыдущая награда">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="car-btn car-next car-btn--pulse" type="button" aria-label="Следующая награда">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <div class="car-dots" data-dots></div>
     </div>
 
-    <!-- Крышка макбука -->
-    <div class="mb-lid-wrap reveal">
-      <div class="mb-lid" role="group" aria-label="Крышка макбука со слотами под стикеры">
-        <div class="mb-lid-row mb-row-1">
-          <button type="button" class="mb-slot" data-slot="top-left"></button>
-          <button type="button" class="mb-slot" data-slot="marquee"></button>
-          <button type="button" class="mb-slot" data-slot="top-right"></button>
-        </div>
-        <div class="mb-lid-row mb-row-2">
-          <button type="button" class="mb-slot" data-slot="mid-left"></button>
-          <button type="button" class="mb-slot" data-slot="apple-left"></button>
-          <div class="mb-apple" aria-hidden="true">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.03 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
-          </div>
-          <button type="button" class="mb-slot" data-slot="apple-right"></button>
-          <button type="button" class="mb-slot" data-slot="mid-right"></button>
-        </div>
-        <div class="mb-lid-row mb-row-3">
-          <button type="button" class="mb-slot" data-slot="bottom-left"></button>
-          <button type="button" class="mb-slot" data-slot="bottom-center"></button>
-          <button type="button" class="mb-slot" data-slot="bottom-right"></button>
-        </div>
+    <p class="trust reveal" style="margin-top:2rem">За спиной — не «галочки в резюме», а живые доклады, статьи и митапы. Хочешь пруф — кликай на источник. Не веришь — приходи на следующий мастер-класс и проверяй сам.</p>
+  </div>
+</section>
+
+<!-- ============ SOCIAL & CONTACTS ============ -->
+<section id="contacts">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">// Соц.сети и контакты</p>
+      <h2>Где меня <span class="grad-text">читать и смотреть</span></h2>
+      <p>Каналы, площадки и личные контакты — всё в одном месте. По вопросам, коллабам и рекламе пиши напрямую, контакты в конце блока.</p>
+    </div>
+
+    <!-- Три главных канала -->
+    <div class="eyebrow reveal">// Главные каналы</div>
+    <div class="ch-cards-grid reveal" style="margin-top:1rem">
+      <div class="ch-card ch-tg">
+        <span class="ch-card-badge">🏆 Топ</span>
+        <img class="ch-logo" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
+        <div class="ch-name">Telegram</div>
+        <div class="ch-desc">1С Заметки · вайбкодинг<br>ИИ · инсайды</div>
+        <div class="ch-count">8 600+</div>
+        <div class="ch-count-label">подписчиков</div>
+        <div class="ch-spacer"></div>
+        <a class="ch-btn tg-btn" href="https://t.me/top_1c" target="_blank" rel="noopener">Подписаться</a>
+      </div>
+      <div class="ch-card ch-yt">
+        <span class="ch-card-badge">🏆 Топ</span>
+        <img class="ch-logo" src="https://cdn.simpleicons.org/youtube/ff4444" alt="YouTube">
+        <div class="ch-name">YouTube</div>
+        <div class="ch-desc">Стримы и подкасты<br>записи митапов</div>
+        <div class="ch-count">1 000+</div>
+        <div class="ch-count-label">подписчиков</div>
+        <div class="ch-spacer"></div>
+        <a class="ch-btn yt-btn" href="https://www.youtube.com/@top_1c" target="_blank" rel="noopener">Подписаться</a>
+      </div>
+      <div class="ch-card ch-mx">
+        <img class="ch-logo" src="https://www.google.com/s2/favicons?domain=max.ru&sz=128" alt="MAX">
+        <div class="ch-name">MAX</div>
+        <div class="ch-desc">1С Заметки<br>зеркало Telegram-канала</div>
+        <div class="ch-count">300+</div>
+        <div class="ch-count-label">подписчиков</div>
+        <div class="ch-spacer"></div>
+        <a class="ch-btn mx-btn" href="https://max.ru/top_1c" target="_blank" rel="noopener">Подписаться</a>
       </div>
     </div>
 
-    <!-- Таблица аукциона -->
-    <details class="mb-participants reveal">
-      <summary>Участники аукциона</summary>
-      <div class="mb-table-wrap">
-      <table class="mb-table">
-        <thead>
-          <tr><th>Позиция</th><th>Размер</th><th>Ставка</th><th>Владелец</th><th>Статус</th><th></th></tr>
-        </thead>
-        <tbody id="mbTbody"></tbody>
-      </table>
-      </div>
-    </details>
-
-    <!-- Как это работает -->
-    <div class="eyebrow reveal">// Как это работает</div>
-    <div class="mb-steps">
-      <article class="card mb-step reveal">
-        <div class="num">01</div>
-        <h3>Делаешь ставку</h3>
-        <p>Жми кнопку у слота — откроется Telegram с готовым сообщением: слот и сумма уже подставлены. Шаг перебития: верхний ряд — 500 ₽, средний — 200 ₽, нижний — 100 ₽.</p>
-      </article>
-      <article class="card mb-step reveal">
-        <div class="num">02</div>
-        <h3>Следишь за аукционом</h3>
-        <p>После каждой подтверждённой ставки обновляю цифры на этой странице. Если твою ставку перебили — напишу лично, решишь: подниму или пас.</p>
-      </article>
-      <article class="card mb-step reveal">
-        <div class="num">03</div>
-        <h3>Финальная неделя</h3>
-        <p>Когда желаемая сумма набрана — объявляю финальную неделю с конечной датой. До неё ещё можно перебить оппонента, после дедлайна торги закрываются.</p>
-      </article>
-      <article class="card mb-step reveal">
-        <div class="num">04</div>
-        <h3>Забираешь слот</h3>
-        <p>Когда сбор закрыт, победители присылают логотип — печатаю стикеры, клею на крышку и показываю результат постом в канале «1С Заметки».</p>
-      </article>
+    <!-- Также есть на -->
+    <div class="eyebrow reveal">// Также есть на</div>
+    <div class="ch-links-grid reveal" style="margin-top:1rem">
+      <a class="ch-link-item" href="https://boosty.to/top_1c" target="_blank" rel="noopener">
+        <div class="ch-link-icon-box" style="background:#F15C22">B</div>
+        <span class="ch-link-name">Boosty</span>
+        <span class="ch-link-badge">🪙 Донат</span>
+      </a>
+      <a class="ch-link-item" href="https://live.vkvideo.ru/top_1c" target="_blank" rel="noopener">
+        <img class="ch-link-icon" src="https://cdn.simpleicons.org/vk/5ba4ff" alt="VK">
+        <span class="ch-link-name">ВК Видео</span>
+      </a>
+      <a class="ch-link-item" href="https://rutube.ru/channel/48898598/" target="_blank" rel="noopener">
+        <div class="ch-link-icon-box" style="border-radius:7px;overflow:hidden;padding:0;background:#FF2700"><img style="width:100%;height:100%;object-fit:cover;display:block" src="https://www.google.com/s2/favicons?domain=rutube.ru&sz=64" alt="RUTUBE"></div>
+        <span class="ch-link-name">RUTUBE</span>
+      </a>
+      <a class="ch-link-item" href="https://vk.com/top_1c" target="_blank" rel="noopener">
+        <img class="ch-link-icon" src="https://cdn.simpleicons.org/vk/5ba4ff" alt="VK">
+        <span class="ch-link-name">ВК Сообщество</span>
+      </a>
+      <a class="ch-link-item" href="https://github.com/DimaKotov1C" target="_blank" rel="noopener">
+        <img class="ch-link-icon gh-icon" src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub">
+        <span class="ch-link-name">GitHub</span>
+      </a>
+      <a class="ch-link-item" href="https://infostart.ru/profile/564942/" target="_blank" rel="noopener">
+        <img class="ch-link-icon" src="https://www.google.com/s2/favicons?domain=infostart.ru&sz=64" alt="Infostart">
+        <span class="ch-link-name">Infostart</span>
+      </a>
     </div>
 
-    <!-- Гарантия -->
-    <div class="mb-guarantee reveal">
-      <span class="mb-guarantee-ic">🤝</span>
-      <p>С даты покупки стикеры гарантированно живут на ноутбуке <b>2 года</b>. Никаких переклеек, замен и «передумал» — крышка ездит со мной по митапам, конференциям, командировкам и путешествиям. <span class="mb-word">Даю слово!</span></p>
+    <!-- Увлечения -->
+    <div class="eyebrow reveal">// Увлечения</div>
+    <div class="ch-links-grid reveal" style="margin-top:1rem">
+      <a class="ch-link-item" href="https://t.me/VlogKotova" target="_blank" rel="noopener">
+        <img class="ch-link-icon" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
+        <span class="ch-link-name">Влог Димы Котова</span>
+        <span class="ch-link-badge">🏆 Топ</span>
+      </a>
+    </div>
+
+    <!-- Личный контакт -->
+    <div class="eyebrow reveal">// Личный контакт</div>
+    <div class="card contact-card reveal" style="margin-top:1rem">
+      <div class="contact-copy">
+        <h3>Пиши — <span class="grad-text">обсудим</span> задачу, коллаб или рекламу</h3>
+        <p>Есть вопрос, идея для коллаба или хочешь разместить рекламу в канале — пиши напрямую.</p>
+        <a class="btn btn-primary" href="https://t.me/kotovdima" target="_blank" rel="noopener">Написать в Telegram →</a>
+      </div>
+      <div class="ch-links-grid contact-links">
+        <a class="ch-link-item" href="https://t.me/KotovDima" target="_blank" rel="noopener">
+          <img class="ch-link-icon" src="https://cdn.simpleicons.org/telegram/22d3ee" alt="Telegram">
+          <span class="ch-link-name">@KotovDima</span>
+        </a>
+        <a class="ch-link-item" href="https://vk.com/kotovdima1c" target="_blank" rel="noopener">
+          <img class="ch-link-icon" src="https://cdn.simpleicons.org/vk/5ba4ff" alt="VK">
+          <span class="ch-link-name">kotovdima1c</span>
+        </a>
+        <a class="ch-link-item" href="mailto:kotovdima1c@gmail.com">
+          <div class="ch-link-icon-box" style="background:#8b5cf6;font-size:13px">✉</div>
+          <span class="ch-link-name">kotovdima1c@gmail.com</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============ FOOTER / CONTACTS ============ -->
-<footer id="contacts">
-  <div class="orb" style="width:380px;height:380px;background:var(--glow-gold);bottom:-180px;left:min(calc(100% - 280px), calc(50% + 440px));"></div>
+<!-- ============ FOOTER ============ -->
+<footer>
   <div class="wrap">
-    <div class="foot-head">
-      <p class="eyebrow">// Контакты</p>
-      <h2>Пиши — <span class="grad-text">обсудим</span> задачу, коллаб или рекламу</h2>
-      <p class="foot-sub">Есть вопрос, идея для коллаба или хочешь разместить рекламу в канале — пиши напрямую.</p>
-      <a class="btn btn-primary" href="https://t.me/kotovdima" target="_blank" rel="noopener">Написать в Telegram →</a>
-      <p class="foot-mail">Почта: <a href="mailto:kotovdima1c@gmail.com">kotovdima1c@gmail.com</a></p>
-    </div>
     <div class="foot-bottom">
       <span>© 2026 Дмитрий Котов · Иркутск</span>
       <span>made with vibecoding ⚡</span>
     </div>
   </div>
 </footer>
+
+<!-- ============ APPLE FAB → macbook.html ============ -->
+<a class="apple-fab" id="appleFab" href="macbook.html" aria-label="Аукцион стикеров: купи место на крышке моего макбука">
+  <span class="afl">Купи место на крышке <b>моего макбука</b> →</span>
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="afGrad" x1="0" y1="0" x2=".35" y2="1">
+        <stop offset="0" stop-color="#FFD96B"/>
+        <stop offset=".45" stop-color="#FF8A3D"/>
+        <stop offset="1" stop-color="#8B5CF6"/>
+      </linearGradient>
+      <linearGradient id="afLeaf" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4AFF6A"/>
+        <stop offset="1" stop-color="#22D3EE"/>
+      </linearGradient>
+      <mask id="afBite" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
+        <rect width="64" height="64" fill="#fff"/>
+        <circle class="bite-c" cx="54" cy="27" r="0" fill="#000"/>
+      </mask>
+    </defs>
+    <g mask="url(#afBite)">
+      <path fill="url(#afGrad)" d="M32 19.5C23 11 7 16.5 7 33c0 13.5 10 25.5 18.5 25.5 3.2 0 4.4-1.6 6.5-1.6s3.3 1.6 6.5 1.6C47 58.5 57 46.5 57 33c0-16.5-16-22-25-13.5Z"/>
+      <ellipse cx="20.5" cy="30" rx="3.6" ry="7" transform="rotate(-18 20.5 30)" fill="#fff" opacity=".32"/>
+    </g>
+    <path d="M32 19.5c0-5.5 2.3-9.5 6.5-12" fill="none" stroke="#7a4a1f" stroke-width="2.6" stroke-linecap="round"/>
+    <path fill="url(#afLeaf)" d="M34.5 14.5C38.5 6.5 47.5 6 50 9.5 46 15.5 39 16.5 34.5 14.5Z"/>
+    <g fill="#FFC02E">
+      <circle class="crumb" cx="55" cy="36" r="1.6"/>
+      <circle class="crumb" cx="59" cy="32" r="1.2"/>
+      <circle class="crumb" cx="57" cy="40" r="1"/>
+    </g>
+  </svg>
+</a>
 
 <script>
 (function () {
@@ -1996,53 +1905,58 @@ var ARTICLES = [
 ];
 
 /* group: ai | streams | guest | meetups. p: yt | vk. id: youtube id или "oid_id" для VK. views — число, dur — секунды, date — YYYY-MM-DD. thumb — только для VK. */
-/* Просмотры YouTube проверены 2026-09-17, см. video-views-check.json.
+/* Просмотры YouTube проверены 2026-11-17, см. video-views-check.json.
    VK: 2026-09-17 доступны только округлённые 2,1 тыс. и 1,5 тыс.; точные значения оставлены из SNAPSHOT_DATE. */
 var VIDEOS = [
   /* Видео и стримы про ИИ и 1С */
-  { group: "ai", p: "yt", id: "dxAm4De8-ZQ", date: "2026-01-27", views: 698,  dur: 5758, title: "Михаил Калимулин. 1С + ИИ уже сейчас" },
-  { group: "ai", p: "yt", id: "_fIRb0LYDxk", date: "2025-11-18", views: 1466, dur: 5215, title: "Владимир Харин. Применение ИИ в 1С" },
-  { group: "ai", p: "yt", id: "7kMkukMAmtY", date: "2026-09-14", views: 4686, dur: 3711, title: "1С + ИИ без КВН. Пишем внешнюю обработку с Z.ai (GLM 5.3) бесплатно" },
-  { group: "ai", p: "yt", id: "Cry0vT3JctY", date: "2026-09-10", views: 9055, dur: 2476, title: "1С + ИИ без КВН. Cursor ушёл, что делать? Пробуем DeepSeek v4 Pro Max" },
-  { group: "ai", p: "yt", id: "CXbI1eKvkpc", date: "2026-09-16", views: 1263, dur: 5580, title: "Сергей Костяков. 1С + ИИ: экономим и оптимизируем контекст с Code Index" },
-  { group: "ai", p: "yt", id: "pLbdPx6Bu9I", date: "2026-09-09", views: 3206, dur: 5360, title: "Константин Коробов. 1С + ИИ, переносим подсистему из УХ в ERP за 300$" },
+  { group: "ai", p: "yt", id: "K3tkq9cKv-Y", date: "2026-10-21", views: 2044, dur: 5655, title: "Выгорел, пока ставил 1С:EDT. Тестируем 1С:Напарник" },
+  { group: "ai", p: "yt", id: "wNmASKts_wE", date: "2026-09-23", views: 1859, dur: 4835, title: "1С + ИИ Битва III. Grok 4.7, Grok 4.6, SOL 6, Astra, Opus 5.5 и Fable 5.1" },
+  { group: "ai", p: "yt", id: "dxAm4De8-ZQ", date: "2026-01-27", views: 712,  dur: 5758, title: "Михаил Калимулин. 1С + ИИ уже сейчас" },
+  { group: "ai", p: "yt", id: "_fIRb0LYDxk", date: "2025-11-18", views: 1501, dur: 5215, title: "Владимир Харин. Применение ИИ в 1С" },
+  { group: "ai", p: "yt", id: "7kMkukMAmtY", date: "2026-09-14", views: 7643, dur: 3711, title: "1С + ИИ без КВН. Пишем внешнюю обработку с Z.ai (GLM 5.3) бесплатно" },
+  { group: "ai", p: "yt", id: "Cry0vT3JctY", date: "2026-09-10", views: 12805, dur: 2476, title: "1С + ИИ без КВН. Cursor ушёл, что делать? Пробуем DeepSeek v4 Pro Max" },
+  { group: "ai", p: "yt", id: "CXbI1eKvkpc", date: "2026-09-16", views: 2947, dur: 5580, title: "Сергей Костяков. 1С + ИИ: экономим и оптимизируем контекст с Code Index" },
+  { group: "ai", p: "yt", id: "pLbdPx6Bu9I", date: "2026-09-09", views: 3853, dur: 5360, title: "Константин Коробов. 1С + ИИ, переносим подсистему из УХ в ERP за 300$" },
 
   /* Видео и стримы не про ИИ */
-  { group: "streams", p: "yt", id: "9CQaXRzPipQ", date: "2025-12-23", views: 2478, dur: 7463, title: "Дина Астахова. Сколько зарабатывают 1Сники 2025/2026?" },
-  { group: "streams", p: "yt", id: "yjhBlmeyHh4", date: "2025-06-10", views: 68,   dur: 82,   title: "Не смог запустить 1С:БизнесСтарт" },
-  { group: "streams", p: "yt", id: "lby6lSZd1Hs", date: "2025-02-21", views: 210,  dur: 1575, title: "Первая реакция на новый интерфейс 1С:Предприятие 8.5" },
-  { group: "streams", p: "yt", id: "ou3hd6v5sSk", date: "2026-09-02", views: 9956, dur: 5880, title: "Анна Степанян. Другие правила на рынке 1С." },
-  { group: "streams", p: "yt", id: "NKXJZ8TTpTU", date: "2026-07-29", views: 1324, dur: 4865, title: "Дина Астахова. Сколько зарабатывает 1Сник в 2026 году?" },
-  { group: "ai", p: "yt", id: "wImZoF3GUlc", date: "2026-07-22", views: 965,  dur: 3610, title: "Самая дешёвая AI-разработка на 1С" },
-  { group: "ai", p: "yt", id: "O7cQKdI1K30", date: "2026-07-15", views: 639,  dur: 4115, title: "1С + ИИ Битва II. FABLE 5, SOL и GROK. ИИ пишет код на 1С." },
-  { group: "ai", p: "yt", id: "GZN-0vKbWJ0", date: "2026-06-24", views: 188,  dur: 3640, title: "Михаил Калимулин. Менеджеры продаж больше не нужны? Торговый бот выходит на смену" },
-  { group: "ai", p: "yt", id: "51Qz6dGJddo", date: "2026-06-03", views: 1181, dur: 5891, title: "1С + ИИ Битва. Cursor + Composer vs Visual Studio Code + Codex" },
-  { group: "ai", p: "yt", id: "nDQ98JOxA4I", date: "2026-05-20", views: 1829, dur: 3970, title: "1С + ИИ + MCP = Творим магию в 1С без айтишников!" },
-  { group: "ai", p: "yt", id: "FYyat8MZ53U", date: "2026-02-24", views: 7823, dur: 7050, title: "1С + ИИ = Проще простого! Вайбкодинг на 1С" },
-  { group: "streams", p: "yt", id: "ho9k1ftmQ-s", date: "2025-12-29", views: 2041, dur: 4736, title: "Новый интерфейс 1С:УНФ на платформе 8.5 (тёмная тема)" },
-  { group: "streams", p: "yt", id: "4F5IpMdosvc", date: "2025-09-16", views: 404,  dur: 5414, title: "Денис Соколов. Три книги для 1Сника. Книжный клуб 1С." },
-  { group: "streams", p: "yt", id: "abOI9MHW4QI", date: "2025-08-14", views: 930,  dur: 6185, title: "Игорь Апресов о разносторонней разработке на 1С" },
+  { group: "streams", p: "yt", id: "9CQaXRzPipQ", date: "2025-12-23", views: 2525, dur: 7463, title: "Дина Астахова. Сколько зарабатывают 1Сники 2025/2026?" },
+  { group: "streams", p: "yt", id: "yjhBlmeyHh4", date: "2025-06-10", views: 70,   dur: 82,   title: "Не смог запустить 1С:БизнесСтарт" },
+  { group: "streams", p: "yt", id: "lby6lSZd1Hs", date: "2025-02-21", views: 222,  dur: 1575, title: "Первая реакция на новый интерфейс 1С:Предприятие 8.5" },
+  { group: "streams", p: "yt", id: "ou3hd6v5sSk", date: "2026-09-02", views: 11328, dur: 5880, title: "Анна Степанян. Другие правила на рынке 1С." },
+  { group: "streams", p: "yt", id: "NKXJZ8TTpTU", date: "2026-07-29", views: 1502, dur: 4865, title: "Дина Астахова. Сколько зарабатывает 1Сник в 2026 году?" },
+  { group: "ai", p: "yt", id: "wImZoF3GUlc", date: "2026-07-22", views: 1410, dur: 3610, title: "Самая дешёвая AI-разработка на 1С" },
+  { group: "ai", p: "yt", id: "O7cQKdI1K30", date: "2026-07-15", views: 707,  dur: 4115, title: "1С + ИИ Битва II. FABLE 5, SOL и GROK. ИИ пишет код на 1С." },
+  { group: "ai", p: "yt", id: "GZN-0vKbWJ0", date: "2026-06-24", views: 199,  dur: 3640, title: "Михаил Калимулин. Менеджеры продаж больше не нужны? Торговый бот выходит на смену" },
+  { group: "ai", p: "yt", id: "51Qz6dGJddo", date: "2026-06-03", views: 1600, dur: 5891, title: "1С + ИИ Битва. Cursor + Composer vs Visual Studio Code + Codex" },
+  { group: "ai", p: "yt", id: "nDQ98JOxA4I", date: "2026-05-20", views: 2171, dur: 3970, title: "1С + ИИ + MCP = Творим магию в 1С без айтишников!" },
+  { group: "ai", p: "yt", id: "FYyat8MZ53U", date: "2026-02-24", views: 10014, dur: 7050, title: "1С + ИИ = Проще простого! Вайбкодинг на 1С" },
+  { group: "streams", p: "yt", id: "ho9k1ftmQ-s", date: "2025-12-29", views: 2488, dur: 4736, title: "Новый интерфейс 1С:УНФ на платформе 8.5 (тёмная тема)" },
+  { group: "streams", p: "yt", id: "4F5IpMdosvc", date: "2025-09-16", views: 413,  dur: 5414, title: "Денис Соколов. Три книги для 1Сника. Книжный клуб 1С." },
+  { group: "streams", p: "yt", id: "abOI9MHW4QI", date: "2025-08-14", views: 987,  dur: 6185, title: "Игорь Апресов о разносторонней разработке на 1С" },
 
   /* В гостях у коллег */
+  { group: "guest", p: "yt", id: "hQNyvdm9Wq4", date: "2026-11-10", views: 7627, dur: 3436, channel: "Инфостарт",
+    title: "Вайбкодинг в 1С: как программисту не потерять работу из-за ИИ?" },
   { group: "guest", p: "vk", id: "210707080_456239203", date: "2025-06-06", views: 2104, dur: 5583, channel: "CORS Academy", thumb: "assets/vk-cors-friday.jpg",
     title: "CORS пятница №12: «Выбор профессии в 1С: программист, аналитик или кто-то ещё?»" },
-  { group: "guest", p: "yt", id: "GKsJ2S1it0Y", date: "2025-03-11", views: 4230, dur: 6891, channel: "Мир 1С",
+  { group: "guest", p: "yt", id: "GKsJ2S1it0Y", date: "2025-03-11", views: 4374, dur: 6891, channel: "Мир 1С",
     title: "Путь 1С-ника. Как Дмитрий Котов до аналитика деградировал" },
   { group: "guest", p: "vk", id: "42867005_456240438", date: "2025-02-24", views: 1503, dur: 1875, channel: "Инфостарт", thumb: "assets/vk-infostart-brand.jpg",
     title: "Личный бренд в ИТ. Как Инфостарт и сообщество 1С помогут вам в карьерном росте" },
 
   /* Митапы и конференции, к организации которых я приложил руку */
-  { group: "meetups", p: "yt", id: "QVrWsWP9lL4", date: "2026-08-26", views: 636,  dur: 2968, title: "Дмитрий Сидоренко. Практический WebSocket: сервер и клиент на JS, потом дружим с 1С" },
-  { group: "meetups", p: "yt", id: "1o-B8f-SOpk", date: "2026-08-20", views: 414,  dur: 1909, title: "Игорь Апресов. WebSocket: протокол и возможности 1С" },
-  { group: "meetups", p: "yt", id: "Weas9J9A1zI", date: "2026-08-08", views: 2353, dur: 2599, title: "Владимир Харин. От вайб-кодинга к инженерному подходу: ИИ-агенты в разработке на 1С" },
-  { group: "meetups", p: "yt", id: "jwZr39IQEl0", date: "2026-07-31", views: 2803, dur: 3516, title: "Алексей Корякин. LLM Wiki как память проекта. Skills как способ с ней работать" },
-  { group: "meetups", p: "yt", id: "JioULq6VwPQ", date: "2026-06-19", views: 226,  dur: 3450, title: "Павел Королёв. Практический опыт OData в интеграции 1С: что работает, а что нет" },
-  { group: "meetups", p: "yt", id: "Mrq3FUfXwBA", date: "2026-06-19", views: 220,  dur: 3592, title: "Игорь Апресов. О разработке HTTP-сервисов в 1С" },
-  { group: "meetups", p: "yt", id: "TZFEjd5TjBY", date: "2026-06-09", views: 942,  dur: 3605, title: "Дарья Грабкина. EDT + GIT vs Хранилище + Конфигуратор." },
-  { group: "meetups", p: "yt", id: "jKAVUBx-LbE", date: "2026-02-19", views: 1082, dur: 7193, title: "Игорь Апресов. HTTP-сервисы в 1С. Кунг-фу митап, Иркутск" },
+  { group: "meetups", p: "yt", id: "M6A53478dZg", date: "2026-09-25", views: 664,  dur: 3523, title: "Наталья Вишневская. Как распознать ложь" },
+  { group: "meetups", p: "yt", id: "QVrWsWP9lL4", date: "2026-08-26", views: 738,  dur: 2968, title: "Дмитрий Сидоренко. Практический WebSocket: сервер и клиент на JS, потом дружим с 1С" },
+  { group: "meetups", p: "yt", id: "1o-B8f-SOpk", date: "2026-08-20", views: 1042, dur: 1909, title: "Игорь Апресов. WebSocket: протокол и возможности 1С" },
+  { group: "meetups", p: "yt", id: "Weas9J9A1zI", date: "2026-08-08", views: 3198, dur: 2599, title: "Владимир Харин. От вайб-кодинга к инженерному подходу: ИИ-агенты в разработке на 1С" },
+  { group: "meetups", p: "yt", id: "jwZr39IQEl0", date: "2026-07-31", views: 3233, dur: 3516, title: "Алексей Корякин. LLM Wiki как память проекта. Skills как способ с ней работать" },
+  { group: "meetups", p: "yt", id: "JioULq6VwPQ", date: "2026-06-19", views: 587,  dur: 3450, title: "Павел Королёв. Практический опыт OData в интеграции 1С: что работает, а что нет" },
+  { group: "meetups", p: "yt", id: "Mrq3FUfXwBA", date: "2026-06-19", views: 339,  dur: 3592, title: "Игорь Апресов. О разработке HTTP-сервисов в 1С" },
+  { group: "meetups", p: "yt", id: "TZFEjd5TjBY", date: "2026-06-09", views: 1173, dur: 3605, title: "Дарья Грабкина. EDT + GIT vs Хранилище + Конфигуратор." },
+  { group: "meetups", p: "yt", id: "jKAVUBx-LbE", date: "2026-02-19", views: 1256, dur: 7193, title: "Игорь Апресов. HTTP-сервисы в 1С. Кунг-фу митап, Иркутск" },
   { group: "meetups", p: "yt", id: "ewnlWyl47AA", date: "2025-07-09", views: 124,  dur: 5764, title: "Жёлтый клуб Иркутск: ИИ при собесе 1Сника, 3 лицензии по цене 2-х" },
-  { group: "meetups", p: "yt", id: "n0pZpsuB3mw", date: "2024-11-19", views: 463,  dur: 6886, title: "Заменят ли нейросети 1Сников? Как правильно использовать индексы в 1С" },
-  { group: "meetups", p: "yt", id: "GI1CYzAkF0M", date: "2024-02-17", views: 1221, dur: 6402, title: "Архитектор ИС и База 1С на 40 терабайт" },
+  { group: "meetups", p: "yt", id: "n0pZpsuB3mw", date: "2024-11-19", views: 479,  dur: 6886, title: "Заменят ли нейросети 1Сников? Как правильно использовать индексы в 1С" },
+  { group: "meetups", p: "yt", id: "GI1CYzAkF0M", date: "2024-02-17", views: 1226, dur: 6402, title: "Архитектор ИС и База 1С на 40 терабайт" },
 ];
 </script>
 
@@ -2077,7 +1991,6 @@ var VIDEOS = [
     return many;
   }
   function byDateDesc(a, b) { return String(b.date).localeCompare(String(a.date)); }
-  function byViewsDesc(a, b) { return (b.views || 0) - (a.views || 0) || byDateDesc(a, b); }
 
   function articleCard(a) {
     return '<a class="card pub car-item" href="' + esc(a.url) + '" target="_blank" rel="noopener">' +
@@ -2133,7 +2046,7 @@ var VIDEOS = [
   var flat = []; /* индекс для модалки */
   document.querySelectorAll("#videos .cgroup[data-group]").forEach(function (g) {
     var key = g.getAttribute("data-group");
-    var items = VIDEOS.filter(function (v) { return v.group === key; }).sort(byViewsDesc);
+    var items = VIDEOS.filter(function (v) { return v.group === key; }).sort(byDateDesc); /* свежие первыми */
     var base = flat.length;
     flat = flat.concat(items);
     render(g, items, function (v, i) { return videoCard(v, base + i); }, "Видео", ["видео", "видео", "видео"]);
@@ -2240,79 +2153,61 @@ var VIDEOS = [
 </script>
 
 <script>
-/* ============ MACBOOK AUCTION ============
-   Данные аукциона. Чтобы обновить: у занятого слота заполни sponsor и bid,
-   у свободного оставь sponsor: null. Крышка, таблица и прогресс пересчитаются сами. */
+/* ============ APPLE FAB: по клику яблоко засасывает в воронку (спираль по формуле + призрачный хвост) ============ */
 (function () {
   "use strict";
-  var GOAL = 300000;
-  var TG_USER = "KotovDima";
+  var fab = document.getElementById("appleFab");
+  if (!fab) return;
+  var svg = fab.querySelector("svg");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var DURATION = 850;          // мс, полёт самого яблока
+  var GHOSTS = [.55, .38, .24, .13]; // прозрачность копий хвоста
+  var GHOST_LAG = 60;          // мс между копиями
 
-  var SLOTS = [
-    { id: "top-left",      name: "Верхний левый",   size: "Большой",           start: 1000, step: 500, bid: null, sponsor: null },
-    { id: "marquee",       name: "Над яблоком",     size: "Большой · премиум", start: 2000, step: 500, bid: null, sponsor: null, premium: true },
-    { id: "top-right",     name: "Верхний правый",  size: "Большой",           start: 1000, step: 500, bid: null, sponsor: null },
-    { id: "mid-left",      name: "Средний левый",   size: "Маленький",         start: 500, step: 200, bid: null, sponsor: null },
-    { id: "apple-left",    name: "Слева у яблока",  size: "Маленький",         start: 500, step: 200, bid: null, sponsor: null },
-    { id: "apple-right",   name: "Справа у яблока", size: "Маленький",         start: 500, step: 200, bid: null, sponsor: null },
-    { id: "mid-right",     name: "Средний правый",  size: "Маленький",         start: 500, step: 200, bid: null, sponsor: null },
-    { id: "bottom-left",   name: "Нижний левый",    size: "Средний",           start: 300, step: 100, bid: null, sponsor: null },
-    { id: "bottom-center", name: "Нижний центр",    size: "Средний",           start: 300, step: 100, bid: null, sponsor: null },
-    { id: "bottom-right",  name: "Нижний правый",   size: "Средний",           start: 300, step: 100, bid: null, sponsor: null }
-  ];
-
-  function fmt(n) { return n.toLocaleString("ru-RU") + " ₽"; }
-  function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
-
-  function tgLink(s) {
-    var text = s.sponsor
-      ? "Привет! Хочу перебить ставку за слот «" + s.name + "» на крышке макбука. Моя ставка: " + fmt(s.bid + s.step)
-      : "Привет! Хочу слот «" + s.name + "» на крышке макбука. Моя ставка: " + fmt(s.start);
-    return "https://t.me/" + TG_USER + "?text=" + encodeURIComponent(text);
+  /* Кадры спирали: центр воронки выше и левее яблока, радиус сходит к нулю, угловая скорость растёт.
+     Яблоко по пути уменьшается, вытягивается вдоль касательной не больше чем в полтора раза. */
+  function spiralFrames(alpha) {
+    var N = 80, TURNS = 3, R0 = 40, TH0 = Math.PI / 4;
+    var cx = -R0 * Math.cos(TH0), cy = -R0 * Math.sin(TH0);
+    var frames = [];
+    for (var i = 0; i < N; i++) {
+      var t = i / (N - 1), p = Math.pow(t, 1.5);
+      var th = TH0 - 2 * Math.PI * TURNS * p;
+      var R = R0 * Math.pow(1 - p, 1.05);
+      var tx = cx + R * Math.cos(th), ty = cy + R * Math.sin(th);
+      var tang = th * 180 / Math.PI - 90;
+      var k = Math.min(1, t * 4); k = k * k * (3 - 2 * k);           // плавный поворот от наклона hover к касательной
+      var rot = -8 * (1 - k) + tang * k;
+      var S = 1.3 * Math.pow(1 - p, .9);
+      var along = S * (1 + .4 * Math.sin(Math.PI * p));
+      var across = S * (1 - .15 * Math.sin(Math.PI * p));
+      frames.push({
+        transform: "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) rotate(" + rot.toFixed(1) + "deg) scale(" + Math.max(across, .01).toFixed(3) + "," + Math.max(along, .01).toFixed(3) + ")",
+        opacity: alpha * (p < .8 ? 1 : 1 - (p - .8) / .2),
+        filter: "blur(" + (1.2 * p * p).toFixed(2) + "px) drop-shadow(0 0 " + (14 + 8 * Math.sin(Math.PI * p)).toFixed(0) + "px rgba(255,192,46," + (.6 * (1 - p)).toFixed(2) + "))",
+        easing: "linear"
+      });
+    }
+    return frames;
   }
 
-  /* крышка */
-  SLOTS.forEach(function (s) {
-    var el = document.querySelector('[data-slot="' + s.id + '"]');
-    if (!el) return;
-    if (s.sponsor) {
-      el.classList.add("taken");
-      el.innerHTML = '<span class="sname">' + esc(s.sponsor) + '</span><span class="sprice">' + fmt(s.bid) + "</span>";
-    } else {
-      el.innerHTML = '<span class="plus">+</span><span class="sname">' + esc(s.name) + '</span><span class="sprice">от ' + fmt(s.start) + "</span>";
-    }
-    if (s.premium) el.insertAdjacentHTML("beforeend", '<span class="crown">👑</span>');
-    el.setAttribute("aria-label", s.name + ", " + (s.sponsor ? "занят, ставка " + fmt(s.bid) + " — перебить в Telegram" : "свободен, от " + fmt(s.start) + " — сделать ставку в Telegram"));
-    el.addEventListener("click", function () {
-      window.open(tgLink(s), "_blank", "noopener");
+  fab.addEventListener("click", function (e) {
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return; // открытие в новой вкладке — как обычная ссылка
+    if (reduce || !svg.animate || fab.classList.contains("spinning")) return;
+    e.preventDefault();
+    fab.classList.add("spinning");
+    /* хвост: копии яблока летят по той же спирали с задержкой и затухают */
+    GHOSTS.forEach(function (alpha, i) {
+      var g = svg.cloneNode(true);
+      g.classList.add("ghost");
+      g.setAttribute("aria-hidden", "true");
+      g.style.opacity = "0";
+      fab.insertBefore(g, svg);
+      g.animate(spiralFrames(alpha), { duration: DURATION, delay: GHOST_LAG * (i + 1), fill: "forwards" });
     });
+    svg.animate(spiralFrames(1), { duration: DURATION, fill: "forwards" });
+    setTimeout(function () { window.location.href = fab.getAttribute("href"); }, DURATION + GHOST_LAG * 2);
   });
-
-  /* таблица */
-  var tbody = document.getElementById("mbTbody");
-  SLOTS.forEach(function (s) {
-    var tr = document.createElement("tr");
-    tr.id = "mb-row-" + s.id;
-    tr.innerHTML =
-      '<td class="pos">' + (s.premium ? "👑 " : "") + esc(s.name) + "</td>" +
-      "<td>" + esc(s.size) + "</td>" +
-      '<td class="bid">' + fmt(s.sponsor ? s.bid : s.start) + (s.sponsor ? "" : '<span class="start-mark">старт</span>') + "</td>" +
-      '<td class="owner">' + (s.sponsor ? esc(s.sponsor) : "—") + "</td>" +
-      "<td>" + (s.sponsor
-        ? '<span class="mb-status taken">Занят</span>'
-        : '<span class="mb-status free">Свободен</span>') + "</td>" +
-      '<td><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="' + tgLink(s) + '">' +
-        (s.sponsor ? "Перебить →" : "Сделать ставку →") + "</a></td>";
-    tbody.appendChild(tr);
-  });
-
-  /* прогресс */
-  var collected = SLOTS.reduce(function (a, s) { return a + (s.sponsor ? s.bid : 0); }, 0);
-  var taken = SLOTS.filter(function (s) { return s.sponsor; }).length;
-  document.getElementById("mbCollected").textContent = fmt(collected);
-  document.getElementById("mbGoal").textContent = "из " + fmt(GOAL);
-  document.getElementById("mbTakenCount").innerHTML = "занято <b>" + taken + "</b> из " + SLOTS.length + " слотов";
-  document.getElementById("mbBarFill").style.width = Math.min(100, Math.round(collected / GOAL * 100)) + "%";
 })();
 </script>
 </body>
