@@ -513,6 +513,91 @@
   .talk .yr { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: 1.45rem; line-height: 1; margin: .15rem 0 .7rem; color: var(--muted); }
   .talk h3 { font-family: "Inter", sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0; }
   .talk > p { color: var(--muted); font-size: .87rem; margin: .6rem 0 1rem; flex: 1; }
+  /* шкала годов над колодой: всего + по годам, клик листает к первому выступлению года */
+  .talk-years {
+    display: flex; align-items: stretch; gap: clamp(.4rem, 1.6vw, 1rem); flex-wrap: wrap;
+    margin: 0 0 1.4rem; padding-bottom: .2rem; position: relative;
+  }
+  .talk-years::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--border); }
+  .ty {
+    position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: .3rem;
+    padding: .2rem clamp(.5rem, 1.4vw, 1rem) .85rem; background: none; border: 0; color: var(--faint);
+    font-family: inherit; text-align: left; cursor: pointer; transition: color .25s ease;
+  }
+  .ty::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px;
+    background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.22,.8,.3,1);
+  }
+  .ty-num { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(1.25rem, 2.6vw, 1.75rem); line-height: 1; color: var(--muted); transition: color .25s ease; }
+  .ty-cap { font-family: "JetBrains Mono", monospace; font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+  .ty:hover .ty-num { color: var(--text); }
+  .ty.on { color: var(--gold); }
+  .ty.on .ty-num { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ty.on::after { transform: scaleX(1); }
+  .ty--total { cursor: default; padding-left: 0; padding-right: clamp(.9rem, 2.4vw, 1.8rem); margin-right: clamp(.2rem, 1vw, .8rem); border-right: 1px solid var(--border); color: var(--muted); }
+  .ty--total .ty-num { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  @media (max-width: 520px) {
+    .talk-years { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .talk-years::-webkit-scrollbar { display: none; }
+    .ty { flex: 0 0 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ty::after { transition: none; } }
+
+  /* карта-облако городов: позиция по долготе/широте, размер по числу выступлений */
+  .talk-map-wrap { margin-top: 2.4rem; }
+  .talk-map {
+    position: relative; margin-top: 1rem; height: clamp(240px, 27vw, 320px); overflow: hidden; container-type: inline-size;
+    border-radius: 18px; border: 1px solid var(--border);
+    background:
+      radial-gradient(circle, var(--border-2) 1px, transparent 1.6px) 0 0 / 22px 22px,
+      radial-gradient(60% 90% at 12% 30%, var(--glow-violet), transparent 70%),
+      radial-gradient(45% 80% at 92% 80%, var(--glow-gold), transparent 70%),
+      linear-gradient(180deg, var(--surface), var(--surface-2));
+    box-shadow: var(--card-shadow);
+  }
+  .tm-layer { position: absolute; inset: 15% 6% 14% 4%; }
+  .tm-arcs { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .tm-arcs path {
+    fill: none; stroke: var(--violet); stroke-width: 1.2; stroke-dasharray: 3 5; stroke-linecap: round;
+    vector-effect: non-scaling-stroke; opacity: .4; transition: opacity .3s ease, stroke .3s ease;
+  }
+  .tm-arcs path.on { stroke: var(--gold); opacity: 1; stroke-dasharray: 6 5; animation: tm-dash 1.2s linear infinite; }
+  @keyframes tm-dash { to { stroke-dashoffset: -22; } }
+  .tm-city {
+    position: absolute; left: var(--x); top: var(--y); width: 0; height: 0; padding: 0; border: 0; background: none;
+    cursor: pointer; font-family: inherit;
+    font-size: calc(var(--k) * clamp(.62rem, 2.75cqw, 1rem));
+    color: color-mix(in srgb, var(--text) calc(40% + var(--w) * 60%), var(--faint));
+  }
+  .tm-dot {
+    position: absolute; left: 0; top: 0; width: calc(5px + var(--k) * 4px); aspect-ratio: 1; translate: -50% -50%;
+    border-radius: 50%; background: var(--gold);
+    box-shadow: 0 0 0 4px rgba(255,192,46,.14), 0 0 16px var(--glow-gold);
+    transition: box-shadow .3s ease, scale .3s cubic-bezier(.5,1.6,.4,1);
+  }
+  .tm-label { position: absolute; display: flex; align-items: baseline; gap: .3em; white-space: nowrap; line-height: 1; }
+  .tm-name { font-family: "Unbounded", sans-serif; font-weight: 800; letter-spacing: -.01em; transition: color .25s ease; }
+  .tm-n { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: max(.62rem, .42em); color: var(--gold); }
+  .tm-city[data-a="r"] .tm-label { left: .75em; top: 0; translate: 0 -50%; }
+  .tm-city[data-a="l"] .tm-label { right: .75em; top: 0; translate: 0 -50%; }
+  .tm-city[data-a="t"] .tm-label { left: 0; bottom: .7em; translate: -50% 0; }
+  .tm-city[data-a="b"] .tm-label { left: 0; top: .7em; translate: -50% 0; }
+  .tm-city:hover .tm-name, .tm-city:focus-visible .tm-name { color: var(--text); }
+  .tm-city:hover .tm-dot { scale: 1.3; }
+  .tm-city:focus-visible { outline: none; }
+  .tm-city:focus-visible .tm-dot { box-shadow: 0 0 0 3px var(--cyan), 0 0 16px var(--glow-gold); }
+  .tm-city.on .tm-name { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .tm-city.on .tm-dot { animation: tm-pulse 1.6s ease-out infinite; }
+  @keyframes tm-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,192,46,.55), 0 0 18px var(--glow-gold); }
+    100% { box-shadow: 0 0 0 14px rgba(255,192,46,0), 0 0 18px var(--glow-gold); }
+  }
+  .tm-legend {
+    position: absolute; left: 1.1rem; bottom: .8rem; font-family: "JetBrains Mono", monospace;
+    font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint);
+  }
+  @media (prefers-reduced-motion: reduce) { .tm-arcs path.on, .tm-city.on .tm-dot { animation: none; } }
+
   .talk-foot { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-top: 1.8rem; }
   .talk-foot p { color: var(--muted); font-size: .92rem; margin: 0; max-width: 60ch; }
   .talk-actions { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
@@ -1047,8 +1132,30 @@
       <p>От дебютного митапа в Иркутске до федеральных конференций и мастер-классов с живым кодом. Без слайдовой воды — с практикой, которую можно унести в проект.</p>
     </div>
 
+    <div class="talk-years reveal" id="talkYears" role="group" aria-label="Выступления по годам"></div>
+
     <div class="deck deck--talks reveal" tabindex="0" aria-roledescription="carousel" aria-label="Выступления">
     <div class="deck-stage">
+      <article class="card talk">
+        <span class="tbadge">⚔️ Первый хакатон</span>
+        <div class="logo">🏛</div>
+        <div class="ev">Infostart Tech Event · Санкт-Петербург</div>
+        <div class="yr"><span class="grad-text">2026</span></div>
+        <h3>Хакатон «Битва вайбкодеров: кто приручит конфигурацию»</h3>
+        <p>По приглашению Инфостарта провёл первый хакатон конференции. Час на реальные задачи в «1С:УТ 11.5» — без слайдов и заготовок, только ИИ.</p>
+        <a class="src" href="https://infostart.ru/event/tech2026/agenda/2762202/" target="_blank" rel="noopener">Программа →</a>
+      </article>
+
+      <article class="card talk">
+        <a class="tbadge" href="https://www.tsu.ru/" target="_blank" rel="noopener">🎓 По приглашению ТГУ</a>
+        <div class="logo">📚</div>
+        <div class="ev">ТГУ · Томск</div>
+        <div class="yr"><span class="grad-text">2026</span></div>
+        <h3>Вебинар «Вайбкодинг в 1С: полный цикл разработки»</h3>
+        <p>По приглашению ТГУ вживую показал полный цикл разработки внешней обработки с ИИ: от постановки задачи до автоматического код-ревью.</p>
+        <a class="src" href="https://vkvideo.ru/video-238390055_456239032" target="_blank" rel="noopener">Запись вебинара →</a>
+      </article>
+
       <article class="card talk">
         <a class="tbadge" href="https://www.tsu.ru/" target="_blank" rel="noopener">🎓 По приглашению ТГУ</a>
         <div class="logo">📚</div>
@@ -1144,6 +1251,16 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
     </button>
     <div class="car-dots" data-dots></div>
+    </div>
+
+    <div class="talk-map-wrap reveal">
+      <div class="eyebrow">// География выступлений</div>
+      <div class="talk-map" id="talkMap" role="group" aria-label="Города выступлений">
+        <div class="tm-layer">
+          <svg class="tm-arcs" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"></svg>
+        </div>
+        <span class="tm-legend">чем крупнее город — тем чаще выступал</span>
+      </div>
     </div>
 
     <div class="talk-foot reveal">
@@ -1792,6 +1909,7 @@ function initDeck(opts) {
   function renderDots() {
     var k = ((current % n) + n) % n;
     dots.forEach(function (d, i) { d.classList.toggle("on", i === k); });
+    if (opts.onChange) opts.onChange(k);
   }
   function move(delta) {
     /* Не ждём паузы, если следующий шаг исчерпает запас карточек по краям. */
@@ -1843,7 +1961,94 @@ function initDeck(opts) {
 window.awardsDeck = initDeck({ root: document.querySelector("#awards .deck"), label: "Награда", start: 0 });
 
 /* колода выступлений */
-window.talksDeck = initDeck({ root: document.querySelector("#talks .deck"), label: "Выступление", start: 0 });
+/* шкала годов считается из самих карточек: добавил выступление — цифры обновились сами */
+window.talksDeck = (function () {
+  var bar = document.getElementById("talkYears");
+  var cards = Array.prototype.slice.call(document.querySelectorAll("#talks .deck-stage > .talk"));
+  var years = cards.map(function (c) { return ((c.querySelector(".yr") || {}).textContent || "").trim(); });
+  var order = [], count = {}, first = {};
+  years.forEach(function (y, i) { if (!(y in count)) { order.push(y); count[y] = 0; first[y] = i; } count[y]++; });
+  function plural(n, f) { var a = n % 10, b = n % 100; return a === 1 && b !== 11 ? f[0] : a >= 2 && a <= 4 && (b < 12 || b > 14) ? f[1] : f[2]; }
+  var TALK = ["выступление", "выступления", "выступлений"];
+  var btns = {}, deck;
+  if (bar) {
+    var total = document.createElement("div");
+    total.className = "ty ty--total";
+    total.innerHTML = '<span class="ty-num">' + cards.length + '</span><span class="ty-cap">' + plural(cards.length, TALK) + " за " + order.length + " " + plural(order.length, ["год", "года", "лет"]) + "</span>";
+    bar.appendChild(total);
+    order.forEach(function (y) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "ty";
+      b.innerHTML = '<span class="ty-num">' + y + '</span><span class="ty-cap">' + count[y] + " " + plural(count[y], TALK) + "</span>";
+      b.setAttribute("aria-label", y + " год: " + count[y] + " " + plural(count[y], TALK) + ". Показать");
+      b.addEventListener("click", function () { if (deck) deck.goTo(first[y]); });
+      bar.appendChild(b); btns[y] = b;
+    });
+  }
+  /* --- карта городов: координаты и сторона подписи (r/l/t/b); новый город — добавить сюда --- */
+  var GEO = {
+    "Санкт-Петербург": { lon: 30.31, lat: 59.94, a: "r" },
+    "Москва":          { lon: 37.62, lat: 55.75, a: "r" },
+    "Екатеринбург":    { lon: 60.61, lat: 56.84, a: "t" },
+    "Томск":           { lon: 84.95, lat: 56.48, a: "t" },
+    "Иркутск":         { lon: 104.30, lat: 52.29, a: "l" }
+  };
+  var HOME = "Иркутск";
+  var cities = cards.map(function (c) {
+    var ev = ((c.querySelector(".ev") || {}).textContent || "").split("·");
+    return (c.getAttribute("data-city") || ev[ev.length - 1] || "").trim();
+  });
+  var cCount = {}, cFirst = {}, cOrder = [];
+  cities.forEach(function (c, i) { if (!GEO[c]) return; if (!(c in cCount)) { cOrder.push(c); cCount[c] = 0; cFirst[c] = i; } cCount[c]++; });
+  var map = document.getElementById("talkMap"), mapBtns = {}, mapArcs = {};
+  if (map && cOrder.length) {
+    var layer = map.querySelector(".tm-layer"), svg = map.querySelector(".tm-arcs");
+    var maxC = Math.max.apply(null, cOrder.map(function (c) { return cCount[c]; }));
+    function px(c) { return (GEO[c].lon - 28) / (106 - 28) * 100; }
+    function py(c) { return (61 - GEO[c].lat) / (61 - 51) * 100; }
+    cOrder.forEach(function (c) {
+      var w = maxC > 1 ? (cCount[c] - 1) / (maxC - 1) : 1;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "tm-city"; b.setAttribute("data-a", GEO[c].a);
+      b.style.setProperty("--x", px(c).toFixed(2) + "%");
+      b.style.setProperty("--y", py(c).toFixed(2) + "%");
+      b.style.setProperty("--k", (1 + w * 1.1).toFixed(2));
+      b.style.setProperty("--w", w.toFixed(2));
+      b.innerHTML = '<span class="tm-dot"></span><span class="tm-label"><span class="tm-name">' + c + '</span><span class="tm-n">' + cCount[c] + "</span></span>";
+      b.setAttribute("aria-label", c + ": " + cCount[c] + " " + plural(cCount[c], TALK) + ". Показать");
+      b.addEventListener("click", function () {
+        /* повторный клик по активному городу листает к следующему выступлению в нём */
+        var k = deck ? deck.index() : -1, next = cFirst[c];
+        if (cities[k] === c) { for (var j = 1; j <= cities.length; j++) { var q = (k + j) % cities.length; if (cities[q] === c) { next = q; break; } } }
+        if (deck) deck.goTo(next);
+      });
+      layer.appendChild(b); mapBtns[c] = b;
+      if (c !== HOME && GEO[HOME]) {
+        var x0 = px(HOME), y0 = py(HOME), x1 = px(c), y1 = py(c);
+        var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        p.setAttribute("d", "M" + x0.toFixed(1) + " " + y0.toFixed(1) + " Q" + ((x0 + x1) / 2).toFixed(1) + " " + (Math.min(y0, y1) - 34).toFixed(1) + " " + x1.toFixed(1) + " " + y1.toFixed(1));
+        svg.appendChild(p); mapArcs[c] = p;
+      }
+    });
+  }
+
+  deck = initDeck({ root: document.querySelector("#talks .deck"), label: "Выступление", start: 0, onChange: function (k) {
+    cOrder.forEach(function (c) {
+      var on = cities[k] === c;
+      mapBtns[c] && mapBtns[c].classList.toggle("on", on);
+      mapArcs[c] && mapArcs[c].classList.toggle("on", on);
+    });
+    order.forEach(function (y) {
+      var on = years[k] === y;
+      btns[y] && btns[y].classList.toggle("on", on);
+      btns[y] && btns[y].setAttribute("aria-pressed", String(on));
+      /* на узких экранах шкала прокручивается: держим активный год в поле зрения */
+      if (on && btns[y] && bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: btns[y].offsetLeft - 16, behavior: "smooth" });
+    });
+  } });
+  return deck;
+})();
+
 </script>
 
 <script>
@@ -1937,6 +2142,9 @@ var VIDEOS = [
   /* В гостях у коллег */
   { group: "guest", p: "yt", id: "hQNyvdm9Wq4", date: "2026-11-10", views: 7627, dur: 3436, channel: "Инфостарт",
     title: "Вайбкодинг в 1С: как программисту не потерять работу из-за ИИ?" },
+  /* дата вебинара ТГУ приблизительная: VK показывает только «2 месяца назад» на 2026-11-21 */
+  { group: "guest", p: "vk", id: "238390055_456239032", date: "2026-09-15", views: 186, dur: 4200, channel: "Курсы ТГУ", thumb: "assets/vk-tsu-vibecoding.jpg",
+    title: "Вайбкодинг в 1С: полный цикл разработки внешней обработки с ИИ в прямом эфире" },
   { group: "guest", p: "vk", id: "210707080_456239203", date: "2025-06-06", views: 2104, dur: 5583, channel: "CORS Academy", thumb: "assets/vk-cors-friday.jpg",
     title: "CORS пятница №12: «Выбор профессии в 1С: программист, аналитик или кто-то ещё?»" },
   { group: "guest", p: "yt", id: "GKsJ2S1it0Y", date: "2025-03-11", views: 4374, dur: 6891, channel: "Мир 1С",
